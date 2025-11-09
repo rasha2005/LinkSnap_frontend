@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { fetchUrls } from "../lib/api";
 import Cookies from "js-cookie";
 import { Url } from "../lib/types/Url";
+import Header from "@/components/common/Header";
 
 export default function MyUrls() {
   const [urls, setUrls] = useState<Url[]>([]);
@@ -29,34 +30,7 @@ export default function MyUrls() {
 
   return (
     <>
-      {/* Header */}
-      <header className="w-full bg-white shadow-md fixed top-0 z-50">
-        <div className="flex justify-between items-center w-full px-6 py-4">
-          <Link href="/" className="text-xl font-extrabold text-gray-900">
-            event8.io
-          </Link>
-
-          <nav>
-            <ul className="flex items-center space-x-6">
-              <li>
-                <Link
-                  href="/my-urls"
-                  className="text-gray-700 hover:text-black text-sm font-medium"
-                >
-                  My URLs
-                </Link>
-              </li>
-
-              <li className="pl-4 border-l border-gray-300">
-                <button className="flex items-center gap-2 text-red-600 hover:text-red-700 text-sm">
-                  <LogOut size={18} />
-                  Logout
-                </button>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </header>
+      <Header/>
 
       {/* Body */}
       <div className="pt-28 px-6 max-w-4xl mx-auto">
