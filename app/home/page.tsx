@@ -75,14 +75,14 @@ export default function URLShortener() {
   {shortUrl && (
   <div className="flex items-center gap-2 mt-3">
     <span className="font-medium text-gray-800">
-     {process.env.NEXT_PUBLIC_BASE_URL_BACKENDAPI }/{shortUrl}
+     {process.env.NEXT_PUBLIC_BASE_URL_BACKENDAPI_REDIRECT }/{shortUrl}
     </span>
 
     <Button
       type="button"
       onClick={() =>
         navigator.clipboard.writeText(
-          `${process.env.NEXT_PUBLIC_BASE_URL_BACKENDAPI }/${shortUrl}`
+          `${process.env.NEXT_PUBLIC_BASE_URL_BACKENDAPI_REDIRECT }/${shortUrl}`
         )
       }
       className="px-2 py-1 text-xs"

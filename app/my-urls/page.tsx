@@ -81,7 +81,7 @@ export default function MyUrls() {
                 {urls.map((item, index) => (
                   <tr key={index} className="border-b hover:bg-gray-50">
                     <td className="py-2 font-medium text-blue-600">
-                      {process.env.NEXT_PUBLIC_BASE_URL_BACKENDAPI}/{item.shortId}
+                      {process.env.NEXT_PUBLIC_BASE_URL_BACKENDAPI_REDIRECT}/{item.shortId}
                     </td>
                     <td className="py-2 text-sm truncate max-w-xs">
                       {item.longUrl}
@@ -92,7 +92,7 @@ export default function MyUrls() {
                         size="sm"
                         onClick={() =>
                           navigator.clipboard.writeText(
-                            `${process.env.NEXT_PUBLIC_BASE_URL_BACKENDAPI}/${item.shortId}`
+                            `${process.env.NEXT_PUBLIC_BASE_URL_BACKENDAPI_REDIRECT}/${item.shortId}`
                           )
                         }
                       >
