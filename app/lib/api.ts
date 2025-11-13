@@ -27,7 +27,7 @@ export const shortenUrl = async(longUrl:string,token:string | undefined) => {
 }
 
 export const verifyEmail = async(token:string | null) => {
-    const res = await Api.get(`/user/verify-email?token=${token}`);
+    const res = await Api.patch(`/user/verify-email?token=${token}`);
     if(res.data.success === true) {
         const token = res.data?.token;
         setToken(token);

@@ -1,6 +1,7 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -8,11 +9,10 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { handleRegister } from "../lib/api";
 import LoginHeader from "@/components/common/LoginHeader";
-import { ToastContainer,toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Register() {
-
   const {
     register,
     handleSubmit,
@@ -20,51 +20,53 @@ export default function Register() {
     formState: { errors },
   } = useForm<RegisterFormValues>();
 
+  const [loading, setLoading] = useState(false); // 🔹 loading state
 
-   const onSubmit = async(data: RegisterFormValues) => {
-    console.log("Form Data:", data);
-    const res = await handleRegister(data);
-    console.log(res);
-    if(res.data.success){
-      toast.success(res.data.message);
-      reset();
+  const onSubmit = async (data: RegisterFormValues) => {
+    try {
+      setLoading(true); // start loading
+      const res = await handleRegister(data);
 
-    }else{
-      toast.error(res.data.message)
+      if (res.data.success) {
+        toast.success(res.data.message);
+        reset();
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      toast.error("Something went wrong. Please try again!");
+    } finally {
+      setLoading(false); // stop loading
     }
   };
 
   return (
     <>
-    <ToastContainer 
-            position="top-right" 
-            autoClose={3000} 
-            hideProgressBar={false} 
-            newestOnTop={false} 
-            closeOnClick 
-            rtl={false} 
-            pauseOnFocusLoss 
-            draggable 
-            pauseOnHover 
-          />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <LoginHeader />
 
-      <div className="flex flex-col items-center bg-zinc-50 dark:bg-black px-4 py-12">
-        
-        {/* Heading above the card */}
+      <div className="flex flex-col items-center bg-zinc-50 dark:bg-black px-4 py-12 min-h-screen">
         <div className="text-center mb-4">
-          <h1 className="text-4xl font-bold text-black dark:text-zinc-50">
-            Register
-          </h1>
-        
+          <h1 className="text-4xl font-bold text-black dark:text-zinc-50">Register</h1>
         </div>
 
-        {/* Card */}
         <Card className="w-full max-w-md">
           <CardContent className="space-y-4">
-          <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-2">
-                <Label className="mb-2" htmlFor="email">Email</Label>
+                <Label className="mb-2" htmlFor="email">
+                  Email
+                </Label>
                 <Input
                   id="email"
                   type="email"
@@ -82,7 +84,9 @@ export default function Register() {
               </div>
 
               <div className="mb-2">
-                <Label className="mb-2" htmlFor="phone">Phone Number</Label>
+                <Label className="mb-2" htmlFor="phone">
+                  Phone Number
+                </Label>
                 <Input
                   id="phone"
                   type="tel"
@@ -100,7 +104,9 @@ export default function Register() {
               </div>
 
               <div className="mb-2">
-                <Label className="mb-2" htmlFor="password">Password</Label>
+                <Label className="mb-2" htmlFor="password">
+                  Password
+                </Label>
                 <Input
                   id="password"
                   type="password"
@@ -111,7 +117,8 @@ export default function Register() {
                       message: "Password must be at least 6 characters",
                     },
                     pattern: {
-                      value: /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=[\]{};':"\\|,.<>/?]).*$/,
+                      value:
+                        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=[\]{};':"\\|,.<>/?]).*$/,
                       message:
                         "Password must contain at least one uppercase letter, one number, and one special character",
                     },
@@ -122,10 +129,16 @@ export default function Register() {
                 )}
               </div>
 
-              <Button type="submit" className="w-full mt-2">Register</Button>
+              {/* 🔹 Loading button */}
+              <Button
+                type="submit"
+                className="w-full mt-3"
+                disabled={loading}
+              >
+                {loading ? "Registering..." : "Register"}
+              </Button>
             </form>
 
-            {/* Redirect link */}
             <p className="mt-2 text-sm text-center text-zinc-600 dark:text-zinc-400">
               Already have an account?{" "}
               <Link href="/login" className="text-blue-600 hover:underline">
